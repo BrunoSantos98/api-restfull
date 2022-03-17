@@ -19,8 +19,6 @@ async function post(req,res){
         price
     } = req.body
 
-    console.log(req.body)
-
     const product = new ProductsModel({
         name,
         brand,
@@ -28,11 +26,34 @@ async function post(req,res){
     })
     
     product.save()
-    
+
     res.send()
+}
+
+async function put(req,res){
+    const {id} = req.params
+
+    const products = await ProductsModel.findOneAndUpdate({_id:id},req.body,{new: true})
+
+    res.send({
+        message: "sucess",
+        products
+    })
+
+    /***********
+    const product = await ProductsModel.findOne({_id:id})
+
+    await product.updateOne(req.body)
+
+    res.send({
+        message: "sucess",
+        product
+    })
+    ***********/
 }
 
 module.exports = {
     get,
     post,
+    put,
 }
